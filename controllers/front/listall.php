@@ -1,30 +1,26 @@
 <?php
 
-use FacebookAds\Object\BusinessDataAPI\Content;
-
-class DummymodulenameListModuleFrontController extends ModuleFrontController
+class DummymodulenameListallModuleFrontController extends ModuleFrontController
 {
     public function init()
     {
         parent::init();
-        header('Content-Type: application/json');
-        $response = [];
-
+        
         $id_language = (int) Tools::getValue('id_language', $this->context->language->id);
 
-        $id_category = (int) Tools::getValue('id_category');
+        $categories = Category::getSimpleCategories($id_language);
 
-        $category = new Category($id_category);
-        if(!$id_category
-            or !Validate::isLoadedObject($category)) {
-            $category = Category::getRootCategory($id_language);
+        $cheapestProductByCategory = [];
+        $cheapestProductPriceByCategory = [];
+        foreach($categories as $category) {
+            $cheapestProduct = self::getChepestProductByCategory($category['id_category'], $id_language);
+            $cheapestProductByCategory[$category['id_category']] = $cheapestProduct;
+            $cheapestProductPriceByCategory[$category['id_category']] = $cheapestProduct['price'];
         }
         
-        $cheapestProduct = self::getChepestProductByCategory($category->id, $id_language);
-        
-        $response['price_start_at_in_this_category'] = $cheapestProduct['price'];
-        $response['cheapest_product'] = $cheapestProduct;
-
+        header('Content-Type: application/json');
+        $response['cheapest_product_price_by_category'] = $cheapestProductPriceByCategory;
+        $response['cheapest_product_by_category'] = $cheapestProductByCategory;
         echo json_encode($response);
         die;
     }

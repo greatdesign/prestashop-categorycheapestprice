@@ -80,4 +80,9 @@ class Categorycheapestprice extends Module
         $text = $this->trans('Prices in this category starts from: %s', [$price], 'Modules.Dummymodulename.Config');
         return $text;
     }
+
+    public function isUsingNewTranslationSystem()
+    {
+        return true;
+    }
 }

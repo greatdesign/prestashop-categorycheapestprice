@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>dummymodulename</name>
+	<displayName><![CDATA[dummydisplayname]]></displayName>
+	<version><![CDATA[1.0.0]]></version>
+	<description><![CDATA[dummy description for my module]]></description>
+	<author><![CDATA[Binshops]]></author>
+	<tab><![CDATA[administration]]></tab>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+</module>

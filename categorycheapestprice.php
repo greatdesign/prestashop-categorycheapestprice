@@ -74,7 +74,16 @@ class Categorycheapestprice extends Module
     {
         $id_category = Tools::getValue('id_category');
         $category = new ExtendedCategory($id_category);
-        $cheapestProduct = $category->getCheapestProduct();
+        
+        try{
+            $cheapestProduct = $category->getCheapestProduct();
+        } catch (Exception $e) {
+            if(_PS_MODE_DEV_) {
+                echo $e->getMessage();
+            }
+            return;
+        }
+
         $price = Product::convertAndFormatPrice($cheapestProduct->getPrice());
 
         $text = $this->trans('Prices in this category starts from: %s', [$price], 'Modules.Categorycheapestprice.Config');

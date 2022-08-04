@@ -28,13 +28,15 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class Dummymodulename extends Module
+require_once('classes/ExtendedCategory.php');
+
+class Categorycheapestprice extends Module
 {
     protected $config_form = false;
 
     public function __construct()
     {
-        $this->name = 'dummymodulename';
+        $this->name = 'categorycheapestprice';
         $this->tab = 'administration';
         $this->version = '1.0.0';
         $this->author = 'Binshops';
@@ -47,8 +49,8 @@ class Dummymodulename extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('dummydisplayname');
-        $this->description = $this->l('dummy description for my module');
+        $this->displayName = $this->l('Category Cheapest Price');
+        $this->description = $this->l('Shows cheapest price of current category products in category page');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
@@ -62,6 +64,7 @@ class Dummymodulename extends Module
         Configuration::updateValue('DUMMYMODULENAME_LIVE_MODE', false);
 
         return parent::install() &&
+            $this->registerHook('displayHeaderCategory') &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader');
     }
@@ -90,6 +93,17 @@ class Dummymodulename extends Module
         $output = $this->context->smarty->fetch($this->local_path.'views/templates/admin/configure.tpl');
 
         return $output.$this->renderForm();
+    }
+
+    public function hookDisplayHeaderCategory()
+    {
+        $id_category = Tools::getValue('id_category');
+        $category = new ExtendedCategory($id_category);
+        $cheapestProduct = $category->getCheapestProduct();
+        $price = Product::convertAndFormatPrice($cheapestProduct->getPrice());
+
+        $text = $this->trans('Prices in this category starts from: %s', [$price], 'Modules.Dummymodulename.Config');
+        return $text;
     }
 
     /**

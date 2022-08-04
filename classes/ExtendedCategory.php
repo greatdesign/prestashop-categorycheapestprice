@@ -25,7 +25,7 @@ class ExtendedCategory extends Category
 
         // validate results
         if(empty($cheapestProduct)) {
-            throw new PrestaShopException($this->trans('No products found in category of id: %d', [$this->id], 'Modules.Dummymodulename.Exceptions'));
+            throw new PrestaShopException($this->trans('No products found in category of id: %d', [$this->id], 'Modules.Categorycheapestprice.Exceptions'));
         }
 
         // pop the item from array
@@ -36,7 +36,7 @@ class ExtendedCategory extends Category
 
         // validate loaded
         if(!Validate::isLoadedObject($product)) {
-            throw new PrestaShopException($this->trans('Product failed to load', [], 'Modules.Dummymodulename.Exceptions'));
+            throw new PrestaShopException($this->trans('Product failed to load', [], 'Modules.Categorycheapestprice.Exceptions'));
         }
 
         return $product;

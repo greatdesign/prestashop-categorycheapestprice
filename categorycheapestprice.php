@@ -49,8 +49,8 @@ class Categorycheapestprice extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('Category Cheapest Price');
-        $this->description = $this->l('Shows cheapest price of current category products in category page');
+        $this->displayName = $this->trans('Category Cheapest Price', [], 'Modules.Categorycheapestprice.Config');
+        $this->description = $this->trans('Shows cheapest price of current category products in category page', [], 'Modules.Categorycheapestprice.Config');
 
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
@@ -77,7 +77,7 @@ class Categorycheapestprice extends Module
         $cheapestProduct = $category->getCheapestProduct();
         $price = Product::convertAndFormatPrice($cheapestProduct->getPrice());
 
-        $text = $this->trans('Prices in this category starts from: %s', [$price], 'Modules.Dummymodulename.Config');
+        $text = $this->trans('Prices in this category starts from: %s', [$price], 'Modules.Categorycheapestprice.Config');
         return $text;
     }
 
